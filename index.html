@@ -487,7 +487,11 @@
     const action = document.getElementById('my-form').action;
     
     try {
-      const response = await fetch(action + "?action=read");
+      const response = await fetch(action + "?action=read", {
+        method: "GET",
+        mode: "cors",
+        redirect: "follow"
+      });
       const data = await response.json();
       
       if (data.status === 'success') {
