@@ -275,14 +275,20 @@
   <input type="number" class="form-control" id="jumlah" name="jumlah" min="1" max="5" length="1" value="1" autocomplete="off">
 </div>
   </div>
-    <div class="col-12">
+  <div class="col-12">
     <div class="mb-3">
   <label for="status" class="form-label">Konfirmasi</label>
       <select name="status" id="status" class="form-select" autocomplete="off">
         <option selected>Pilih salah satu</option>
-        <option value="1">Hadir</option>
-        <option value="0">Tidak Hadir</option>
+        <option value="Hadir">Hadir</option>
+        <option value="Tidak Hadir">Tidak Hadir</option>
       </select>
+</div>
+  </div>
+  <div class="col-12">
+    <div class="mb-3">
+  <label for="ucapan" class="form-label">Ucapan & Doa</label>
+  <textarea name="ucapan" id="ucapan" class="form-control" rows="3" placeholder="Berikan ucapan terbaik Anda..."></textarea>
 </div>
   </div>
   <div class="col-12" style="margin-top: 35px;">
@@ -291,26 +297,13 @@
     </form>
 
     <div class="row justify-content-center mt-5">
-      <div class="col-md-6">
-        <div id="disqus_thread"></div>
-<script>
-    /**
-    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-    /*
-    var disqus_config = function () {
-    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    */
-    (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = 'https://ryd-wedding.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <div class="col-md-6 scrollable-wishes">
+        <div id="wishes-container" class="bg-light p-4 rounded shadow-sm" style="max-height: 400px; overflow-y: auto;">
+          <h4 class="text-center mb-4" style="font-family: 'Sacramento', cursive; font-size: 2.5rem; color: var(--pink);">Doa & Ucapan</h4>
+          <div id="wishes-list">
+            <p class="text-center text-muted">Memuat ucapan...</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -483,9 +476,42 @@
     })
     .then(() => {
       alert("Konfirmasi kehadiran berhasil terkirim!");
+      form.reset();
+      loadWishes();
     })
   });
 });
+
+  async function loadWishes() {
+    const wishesList = document.getElementById('wishes-list');
+    const action = document.getElementById('my-form').action;
+    
+    try {
+      const response = await fetch(action + "?action=read");
+      const data = await response.json();
+      
+      if (data.status === 'success') {
+        wishesList.innerHTML = '';
+        data.data.forEach(wish => {
+          const div = document.createElement('div');
+          div.className = 'wish-item mb-3 p-3 border-bottom';
+          div.innerHTML = `
+            <h6 class="fw-bold mb-1">${wish.nama} <span class="badge ${wish.status === 'Hadir' ? 'bg-success' : 'bg-secondary'} ms-2" style="font-size: 0.7rem;">${wish.status}</span></h6>
+            <p class="mb-0 text-muted small">${wish.ucapan || '---'}</p>
+          `;
+          wishesList.appendChild(div);
+        });
+      } else {
+        wishesList.innerHTML = '<p class="text-center text-muted">Belum ada ucapan.</p>';
+      }
+    } catch (error) {
+      console.error('Error loading wishes:', error);
+      wishesList.innerHTML = '<p class="text-center text-muted">Gagal memuat ucapan.</p>';
+    }
+  }
+
+  // Load wishes on start
+  document.addEventListener('DOMContentLoaded', loadWishes);
 </script>
 
 <script>
