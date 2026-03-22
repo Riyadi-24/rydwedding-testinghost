@@ -488,9 +488,7 @@
     
     try {
       const response = await fetch(action + "?action=read", {
-        method: "GET",
-        mode: "cors",
-        redirect: "follow"
+        method: "GET"
       });
       const data = await response.json();
       
