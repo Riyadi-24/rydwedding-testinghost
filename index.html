@@ -29,15 +29,27 @@
   <body>
     <section
       id="hero"
-      class="hero w-100 h-100 p-3 mx-auto text-center d-flex justify-content-center align-items-center text-white"
+      class="hero w-100 h-100 mx-auto text-center d-flex justify-content-center align-items-center text-white"
     >
-      <main>
-        <h4>Kepada <span>Kepada Bapak/Ibu/Saudara/i, </span></h4>
-        <h1>Yusfi & Marwah</h1>
-        <p>Akan melangsungkan repsepsi pernikahan dalam:</p>
-        <div class="simply-countdown"></div>
-        <a href="#home" class="btn btn-lg mt-4" onClick="enableScroll()">Lihat Undangan</a>
-      </main>
+      <div class="container splash-container">
+        <div class="row align-items-center">
+          <div class="col-lg-7 text-lg-start mb-5 mb-lg-0">
+            <h4 class="mb-3">The Wedding of</h4>
+            <h1 class="display-1">Yusfi & Marwah</h1>
+            <p class="lead">Sabtu, 21 Juni 2025</p>
+          </div>
+          <div class="col-lg-5">
+            <div class="recipient-box p-4 rounded-4 shadow-lg">
+              <p class="mb-2">Kepada Yth. Bapak/Ibu/Saudara/i</p>
+              <h2 id="nama-tamu" class="fw-bold mb-4">Nama Tamu</h2>
+              <button class="btn btn-lg btn-buka-undangan px-5 rounded-pill" onClick="enableScroll()">
+                <i class="bi bi-envelope-open me-2"></i> Buka Undangan
+              </button>
+              <p class="mt-3 small italic">Mohon maaf jika ada kesalahan dalam penulisan nama/gelar</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <nav class="navbar navbar-expand-md bg-transparent sticky-top mynavbar">
@@ -98,7 +110,7 @@
         <img src="img/cewe1.jpg" alt="Amanda Aulia" class="img-responsive rounded-circle">
       </div>
         <div class="col-8">
-        <h3>Marwah Aulia Blablabla</h3>
+        <h3>Marwah Aulia</h3>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa excepturi quo similique aut quos rem repellendus deserunt officia pariatur, dicta sit quasi? Minima quod aliquid nam nemo. Minus, porro laborum.</p>
         <p>Putra dari Bpk. Ipsum <br> dan <br> Ibu Lorem</p>
       </div>
@@ -339,11 +351,45 @@
     </div>
 </section>
 
+<section id="generator" class="generator py-5 bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 text-center">
+        <h2>Generator Undangan</h2>
+        <p>Gunakan form di bawah ini untuk membuat link undangan dan pesan WhatsApp otomatis.</p>
+        
+        <div class="card p-4 shadow-sm">
+          <div class="mb-3 text-start">
+            <label for="guest-name" class="form-label">Nama Tamu (Contoh: Bang Sendy & Partner)</label>
+            <input type="text" id="guest-name" class="form-control" placeholder="Masukkan nama tamu...">
+          </div>
+          <button class="btn btn-primary w-100 mb-3" onclick="generateInvitation()">Generate Link & Pesan</button>
+          
+          <div id="result-container" style="display: none;">
+            <div class="mb-3 text-start">
+              <label class="form-label">Link Undangan:</label>
+              <div class="input-group">
+                <input type="text" id="generated-link" class="form-control" readonly>
+                <button class="btn btn-outline-secondary" onclick="copyToClipboard('generated-link')">Salin</button>
+              </div>
+            </div>
+            <div class="mb-3 text-start">
+              <label class="form-label">Pesan WhatsApp:</label>
+              <textarea id="generated-message" class="form-control" rows="10" readonly></textarea>
+              <button class="btn btn-success w-100 mt-2" onclick="shareWhatsApp()">Kirim via WhatsApp</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="container">
     <div class="row">
       <div class="col text-center">
-        <small class="block">&copy; 2026 RYD Wedding. All Rights Reserved</small>
+        <small class="block">&copy; 2026 Yusfi & Marwah Wedding. All Rights Reserved</small>
         <small class="block">&copy; Design by <a href="">@rydwedding</a></small>
 
         <ul class="mt-3">
@@ -522,15 +568,69 @@
   // Load wishes on start
   document.addEventListener('DOMContentLoaded', loadWishes);
 </script>
-
 <script>
   const urlParams = new URLSearchParams(window.location.search);
-  const nama = urlParams.get('n') || '';
-  const pronoun = urlParams.get('p') || 'Bapak/Ibu/Saudara/i'; 
-  const namaContainer = document.querySelector('.hero h4 span');
-  namaContainer.innerText = `${pronoun} ${nama},`.replace(/ ,$/, ',');
+  const to = urlParams.get('to');
+  const namaContainer = document.getElementById('nama-tamu');
 
-  document.querySelector('#nama').value = nama;
+  if (to) {
+    namaContainer.innerText = to;
+    const namaInput = document.querySelector('#nama');
+    if (namaInput) namaInput.value = to;
+  }
+
+  function generateInvitation() {
+    const name = document.getElementById('guest-name').value;
+    if (!name) {
+      alert('Silakan masukkan nama tamu.');
+      return;
+    }
+
+    const baseUrl = window.location.href.split('?')[0];
+    const encodedName = encodeURIComponent(name);
+    const link = `${baseUrl}?to=${encodedName}`;
+    
+    const message = `Assalamu'alaikum Warahmatullahi Wabarakatuh
+
+Kepada Yth.
+Bapak/Ibu/Saudara/i
+
+${name}
+
+Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami.
+
+Berikut link undangan kami, untuk info lengkap dari acara bisa kunjungi :
+
+${link}
+
+Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir dan memberikan doa restu.
+
+Mohon maaf perihal undangan hanya di bagikan melalui pesan ini.
+
+Terima kasih banyak atas perhatiannya.
+
+Wassalamu'alaikum Warahmatullahi Wabarakatuh
+
+Hormat Kami,
+Yusfi & Marwah`;
+
+    document.getElementById('generated-link').value = link;
+    document.getElementById('generated-message').value = message;
+    document.getElementById('result-container').style.display = 'block';
+  }
+
+  function copyToClipboard(id) {
+    const el = document.getElementById(id);
+    el.select();
+    document.execCommand('copy');
+    alert('Tersalin ke clipboard!');
+  }
+
+  function shareWhatsApp() {
+    const message = document.getElementById('generated-message').value;
+    const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  }
 </script>
 </body>
 </html>

@@ -1,7 +1,10 @@
 :root {
-  --pink: #f14e95;
+  --pink: #d4a373; /* Sage/Beige tone */
+  --sage: #a3b18a;
+  --beige: #fefae0;
+  --dark-sage: #3a5a40;
   --bg: #0a0a0a;
-  --shadow: 0 2px 2px rbg(0 0 0 / 0.5);
+  --shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 html {
@@ -19,37 +22,63 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url(img/prewed.jpg);
+  background-image: url(img/hero-bg.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   z-index: -1;
-  filter: grayscale(100%);
+  filter: brightness(0.7);
 }
 
 .hero {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
+  background-color: var(--dark-sage);
 }
 
-.hero h1,
-.hero h4,
-.hero p {
-  text-shadow: var(--shadow);
+.splash-container {
+  z-index: 1;
+}
+
+.recipient-box {
+  background-color: rgba(255, 255, 255, 0.85);
+  color: var(--dark-sage);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.btn-buka-undangan {
+  background-color: var(--dark-sage);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-buka-undangan:hover {
+  background-color: var(--sage);
+  color: white;
+  transform: scale(1.05);
 }
 
 .hero h1 {
   font-family: "Sacramento", cursive;
-  font-size: 6rem;
+  font-size: 7rem;
+  margin-bottom: 2rem;
 }
 
 .hero h4 {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
 }
 
-.hero p {
-  font-size: 1.4rem;
+.hero p.lead {
+  font-size: 2rem;
+  font-weight: 300;
+}
+
+.italic {
+  font-style: italic;
 }
 
 .hero a {
@@ -98,7 +127,7 @@ body {
 .gallery h2,
 .rsvp h2,
 .gifts h2 {
-    color: var(--pink);
+    color: var(--dark-sage);
     font-family: 'Sacramento';
     font-size: 5rem;
     font-weight: bold;
@@ -143,7 +172,7 @@ body {
 
 .home .heart i {
   margin: auto;
-  color: var(--pink);
+  color: var(--sage);
 }
 
 .info {
@@ -334,9 +363,9 @@ body {
 }
 
 .rsvp button {
-  background-color: var(--pink);
+  background-color: var(--dark-sage);
   color: white;
-  border: 1px solid var(--pink);
+  border: 1px solid var(--dark-sage);
 }
 
 .rsvp button:hover {
@@ -347,7 +376,8 @@ body {
 
 footer {
   padding: 3rem;
-  background-color: var(--pink);
+  background-color: var(--dark-sage);
+  color: white;
 }
 
 footer a {
@@ -357,7 +387,7 @@ footer a {
 }
 
 footer a:hover {
-  color: white;
+  color: var(--beige);
 }
 
 footer li {
