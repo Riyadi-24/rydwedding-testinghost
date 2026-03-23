@@ -79,47 +79,153 @@
 </div>
 
 <div id="generator-content" class="card p-4 p-md-5" style="display: none;">
-    <div class="text-center mb-4">
-        <h2>Generator Undangan</h2>
-        <p class="text-muted">Buat link dan pesan undangan otomatis untuk tamu.</p>
-    </div>
+    <ul class="nav nav-tabs mb-4" id="adminTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="invite-tab" data-bs-toggle="tab" data-bs-target="#invite" type="button" role="tab" aria-controls="invite" aria-selected="true">Generator Link</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">Pengaturan Undangan</button>
+        </li>
+    </ul>
 
-    <div class="mb-3">
-        <label for="guest-name" class="form-label">Nama Tamu</label>
-        <input type="text" id="guest-name" class="form-control" placeholder="Contoh: Bapak Tedi & Keluarga">
-    </div>
-
-    <button class="btn btn-primary w-100 mb-4" onclick="generateInvitation()">
-        <i class="bi bi-magic me-2"></i> Generate Link & Pesan
-    </button>
-
-    <div id="result-container" style="display: none;">
-        <div class="result-box">
-            <label for="generated-link" class="form-label">Link Undangan:</label>
-            <div class="input-group mb-3">
-                <input type="text" id="generated-link" class="form-control" readonly>
-                <button class="btn btn-outline-secondary" onclick="copyToClipboard('generated-link')">
-                    <i class="bi bi-copy"></i> Salin
-                </button>
+    <div class="tab-content" id="adminTabContent">
+        <!-- TAB 1: GENERATOR -->
+        <div class="tab-pane fade show active" id="invite" role="tabpanel" aria-labelledby="invite-tab">
+            <div class="mb-3">
+                <label for="guest-name" class="form-label">Nama Tamu</label>
+                <input type="text" id="guest-name" class="form-control" placeholder="Contoh: Bapak Tedi & Keluarga">
             </div>
 
-            <label for="generated-message" class="form-label">Pesan WhatsApp:</label>
-            <textarea id="generated-message" class="form-control mb-3" rows="10" readonly></textarea>
-            
-            <button class="btn btn-success w-100" onclick="shareWhatsApp()">
-                <i class="bi bi-whatsapp me-2"></i> Kirim via WhatsApp
+            <button class="btn btn-primary w-100 mb-4" onclick="generateInvitation()">
+                <i class="bi bi-magic me-2"></i> Generate Link & Pesan
             </button>
+
+            <div id="result-container" style="display: none;">
+                <div class="result-box">
+                    <label for="generated-link" class="form-label">Link Undangan:</label>
+                    <div class="input-group mb-3">
+                        <input type="text" id="generated-link" class="form-control" readonly>
+                        <button class="btn btn-outline-secondary" onclick="copyToClipboard('generated-link')">
+                            <i class="bi bi-copy"></i> Salin
+                        </button>
+                    </div>
+
+                    <label for="generated-message" class="form-label">Pesan WhatsApp:</label>
+                    <textarea id="generated-message" class="form-control mb-3" rows="10" readonly></textarea>
+                    
+                    <button class="btn btn-success w-100" onclick="shareWhatsApp()">
+                        <i class="bi bi-whatsapp me-2"></i> Kirim via WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: SETTINGS -->
+        <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+            <p class="text-muted small mb-4">Ubah detail pernikahan di bawah ini, lalu klik "Generate Config" untuk mendapatkan kode yang baru.</p>
+            
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Nama Panggilan Pria</label>
+                    <input type="text" id="groom-nick" class="form-control" value="Yusfi">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Nama Panggilan Wanita</label>
+                    <input type="text" id="bride-nick" class="form-control" value="Marwah">
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Nama Lengkap Pria</label>
+                    <input type="text" id="groom-full" class="form-control" value="Yusuf Supriyadi">
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Nama Orang Tua Pria</label>
+                    <input type="text" id="groom-parents" class="form-control" value="Putra dari Bpk. Selamet Riyadi & Ibu Munyati">
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Nama Lengkap Wanita</label>
+                    <input type="text" id="bride-full" class="form-control" value="Marwah Aulia">
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Nama Orang Tua Wanita</label>
+                    <input type="text" id="bride-parents" class="form-control" value="Putri dari Bpk. Lorem Ipsum & Ibu Ipsum Loren">
+                </div>
+                <div class="col-12 border-top pt-3">
+                    <label class="form-label">Tanggal Acara Utama (Tampilan)</label>
+                    <input type="text" id="event-date" class="form-control" value="Sabtu, 21 Juni 2025">
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Tanggal Countdown (ISO Format)</label>
+                    <input type="text" id="event-iso" class="form-control" value="2025-06-21T08:00:00">
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Link Google Maps (URL)</label>
+                    <input type="text" id="maps-link" class="form-control" value="https://maps.app.goo.gl/uQsAwfTTj4KM1hBF6">
+                </div>
+                <div class="col-12 border-top pt-3">
+                    <label class="form-label">Turut Mengundang (Pisahkan dengan koma)</label>
+                    <textarea id="turut-mengundang" class="form-control" rows="3">Keluarga Besar Bpk. Selamet Riyadi, Keluarga Besar Bpk. Lorem Ipsum, Sahabat & Rekan Kerja</textarea>
+                </div>
+            </div>
+
+            <button class="btn btn-dark w-100 mt-4" onclick="updateConfig()">
+                <i class="bi bi-code-slash me-2"></i> Generate Config Code
+            </button>
+
+            <div id="config-result-container" style="display: none;" class="mt-4">
+                <label class="form-label text-danger fw-bold">Salin dan Timpa isi file config.js dengan kode ini:</label>
+                <textarea id="generated-config" class="form-control bg-dark text-success" rows="10" readonly></textarea>
+                <button class="btn btn-outline-dark btn-sm mt-2" onclick="copyToClipboard('generated-config')">Salin Kode</button>
+            </div>
         </div>
     </div>
     
-    <div class="text-center mt-4">
+    <div class="text-center mt-5">
         <a href="index.html" class="text-decoration-none small text-muted">
             <i class="bi bi-arrow-left"></i> Kembali ke Undangan
         </a>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    function updateConfig() {
+        const config = {
+            couple: {
+                groom: {
+                    nickname: document.getElementById('groom-nick').value,
+                    fullName: document.getElementById('groom-full').value,
+                    parents: document.getElementById('groom-parents').value,
+                    photo: "img/cowo1.jpg"
+                },
+                bride: {
+                    nickname: document.getElementById('bride-nick').value,
+                    fullName: document.getElementById('bride-full').value,
+                    parents: document.getElementById('bride-parents').value,
+                    photo: "img/cewe1.jpg"
+                }
+            },
+            event: {
+                date: document.getElementById('event-date').value,
+                timestamp: document.getElementById('event-iso').value,
+                location: "Gedung BellaVista",
+                address: "Jl. Jatimakmur, Kec. Pondok Gede, Kota Bekasi",
+                mapsLink: document.getElementById('maps-link').value,
+                mapsEmbed: "https://www.google.com/maps/embed?pb=...",
+                akad: { time: "08.00 - 10.00", date: "Minggu, 29 Maret 2026" },
+                resepsi: { time: "11.00 - Selesai", date: "Minggu, 29 Maret 2026" }
+            },
+            gifts: [
+                { bank: "BCA", accountNumber: "1234567890", owner: document.getElementById('groom-full').value },
+                { bank: "MANDIRI", accountNumber: "0987654321", owner: document.getElementById('bride-full').value }
+            ],
+            turutMengundang: document.getElementById('turut-mengundang').value.split(',').map(s => s.trim())
+        };
+
+        const configCode = `const weddingConfig = ${JSON.stringify(config, null, 4)};`;
+        document.getElementById('generated-config').value = configCode;
+        document.getElementById('config-result-container').style.display = 'block';
+    }
+
     function checkLogin() {
         const user = document.getElementById('username').value;
         const pass = document.getElementById('password').value;

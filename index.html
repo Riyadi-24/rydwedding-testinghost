@@ -24,8 +24,9 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
-    <link rel="stylesheet" href="style.css?v=1.0.1" />
+    <link rel="stylesheet" href="style.css?v=1.0.2" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="config.js?v=1.0.2"></script>
   </head>
   <body>
     <section id="hero" class="hero w-100 h-100 mx-auto d-flex align-items-center text-white">
@@ -34,12 +35,12 @@
           <!-- Left Panel: Content -->
           <div class="col-lg-8 d-flex flex-column justify-content-center p-5 text-lg-start text-center hero-content">
             <h4 class="mb-3" data-aos="fade-down" data-aos-duration="1000">The Wedding of</h4>
-            <h1 class="display-1 fw-bold" data-aos="zoom-in" data-aos-duration="1500">Yusfi & Marwah</h1>
-            <p class="lead" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="500">Sabtu, 21 Juni 2025</p>
+            <h1 class="display-1 fw-bold hero-couple-name" data-aos="zoom-in" data-aos-duration="1500">Yusfi & Marwah</h1>
+            <p class="lead hero-event-date" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="500">Sabtu, 21 Juni 2025</p>
           </div>
           <!-- Right Panel: Guest Greeting inside Arched Frame -->
           <div class="col-lg-4 d-flex align-items-center justify-content-center p-4">
-            <div class="arched-frame p-5 text-center text-dark" data-aos="fade-left" data-aos-duration="1000">
+            <div class="arched-frame p-3 p-md-5 text-center text-dark" data-aos="fade-left" data-aos-duration="1000">
               <div class="frame-content">
                 <p class="mb-1">Kepada Yth. Bapak/Ibu/Saudara/i</p>
                 <h2 id="nama-tamu" class="fw-bold mb-4">Nama Tamu</h2>
@@ -322,36 +323,30 @@
 
 </section>
 
-<section id="gifts" class="gifts">
-    <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-8 col-10 text-center">
-        <span>ungkapan tanda kasih</span>
-        <h2>Kirim Hadiah</h2>
-        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt nulla vel voluptates mollitia, consectetur reprehenderit dolore modi beatae repudiandae aliquid eaque atque dignissimos iusto sed officia culpa voluptate ea optio.</p>
-      </div>
-    </div>
+    <section id="gifts" class="gifts py-5">
+      <div class="container" data-aos="fade-up">
+        <div class="row justify-content-center">
+          <div class="col-md-8 text-center text">
+            <span>Kirim Hadiah</span>
+            <h2>Amplop Digital</h2>
+            <p>Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun apabila Anda ingin memberikan tanda kasih, Anda dapat mengirimkan melalui:</p>
+          </div>
+        </div>
 
-    <div class="row justify-content-center text-center">
-      <div class="col-md-6">
-        <ul class="list-group">
-          <li class="list-group-item">
-            <div class="fw-bold">BCA</div>
-            123456789 - YUSUF SUPRIYADI
-          </li>
-          <li class="list-group-item">
-            <div class="fw-bold">MANDIRI</div>
-            123456789 - YUSUF SUPRIYADI
-          </li>
-          <li class="list-group-item">
-            <div class="fw-bold">QRIS</div>
-            <div><img src="img/qris.png" alt="QRIS" class="img-thumbnail" width="150"></div>
-          </li>
-        </ul>
+        <div class="row justify-content-center mt-4 gift-list">
+          <!-- Dynamically populated from config.js -->
+        </div>
+
+        <div class="row justify-content-center mt-5" data-aos="zoom-in">
+          <div class="col-md-6 text-center">
+            <h3 class="mb-4">Turut Mengundang</h3>
+            <ul class="list-unstyled turut-mengundang-list fs-5">
+              <!-- Dynamically populated -->
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
-    </div>
-</section>
+    </section>
 
 <footer>
   <div class="container">
@@ -397,10 +392,11 @@
 <script src="https://cdn.jsdelivr.net/npm/simplycountdown.js@1.6.0/dist/simplyCountdown.min.js"></script>
 
 <script>
+    const eventDate = new Date(weddingConfig.event.timestamp);
     simplyCountdown('.simply-countdown', {
-        year: 2026,
-        month: 3,
-        day: 29,
+        year: eventDate.getFullYear(),
+        month: eventDate.getMonth() + 1,
+        day: eventDate.getDate(),
         words: {
             days: { singular: 'hari', plural: 'hari' },
             hours: { singular: 'jam', plural: 'jam' },
@@ -546,6 +542,52 @@
     const namaInput = document.querySelector('#nama');
     if (namaInput) namaInput.value = to;
   }
+
+  // Dynamic population from config.js
+  document.addEventListener('DOMContentLoaded', () => {
+    // Hero
+    document.querySelector('.hero-couple-name').innerText = `${weddingConfig.couple.groom.nickname} & ${weddingConfig.couple.bride.nickname}`;
+    document.querySelector('.hero-event-date').innerText = weddingConfig.event.date;
+
+    // Couple Section
+    document.getElementById('home').querySelector('.col-lg-6:first-child h3').innerText = weddingConfig.couple.groom.fullName;
+    document.getElementById('home').querySelector('.col-lg-6:first-child p:last-child').innerHTML = weddingConfig.couple.groom.parents;
+    document.getElementById('home').querySelector('.col-lg-6:last-child h3').innerText = weddingConfig.couple.bride.fullName;
+    document.getElementById('home').querySelector('.col-lg-6:last-child p:last-child').innerHTML = weddingConfig.couple.bride.parents;
+
+    // Info Section
+    document.querySelector('.info .alamat').innerHTML = `Alamat: ${weddingConfig.event.location} <br> ${weddingConfig.event.address}`;
+    document.querySelector('.info iframe').src = weddingConfig.event.mapsEmbed;
+    document.querySelector('.info a.btn-primary').href = weddingConfig.event.mapsLink;
+    
+    // Akad & Resepsi
+    const akadCard = document.querySelector('.info .card:first-of-type');
+    akadCard.querySelectorAll('span')[0].innerText = weddingConfig.event.akad.time;
+    akadCard.querySelectorAll('span')[1].innerText = weddingConfig.event.akad.date;
+
+    const resepsiCard = document.querySelector('.info .card:last-of-type');
+    resepsiCard.querySelectorAll('span')[0].innerText = weddingConfig.event.resepsi.time;
+    resepsiCard.querySelectorAll('span')[1].innerText = weddingConfig.event.resepsi.date;
+
+    // Gifts
+    const giftList = document.querySelector('.gift-list');
+    weddingConfig.gifts.forEach(gift => {
+      giftList.innerHTML += `
+        <div class="col-md-5 mb-3">
+          <div class="card p-3 shadow-sm border-0">
+            <div class="fw-bold fs-5 color-sage">${gift.bank}</div>
+            <div class="fs-4 fw-bold my-2">${gift.accountNumber}</div>
+            <div class="text-muted">A.n ${gift.owner}</div>
+          </div>
+        </div>`;
+    });
+
+    // Turut Mengundang
+    const tmList = document.querySelector('.turut-mengundang-list');
+    weddingConfig.turutMengundang.forEach(name => {
+      tmList.innerHTML += `<li class="mb-2">${name}</li>`;
+    });
+  });
 
   function copyToClipboard(id) {
     const el = document.getElementById(id);
