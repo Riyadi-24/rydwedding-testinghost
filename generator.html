@@ -60,7 +60,25 @@
 </head>
 <body>
 
-<div class="card p-4 p-md-5">
+<div id="login-screen" class="card p-4 p-md-5">
+    <div class="text-center mb-4">
+        <h2>Login Generator</h2>
+        <p class="text-muted">Masukkan username dan password untuk melanjutkan.</p>
+    </div>
+    <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" id="username" class="form-control" placeholder="Username">
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" class="form-control" placeholder="Password">
+    </div>
+    <button class="btn btn-primary w-100" onclick="checkLogin()">
+        <i class="bi bi-box-arrow-in-right me-2"></i> Login
+    </button>
+</div>
+
+<div id="generator-content" class="card p-4 p-md-5" style="display: none;">
     <div class="text-center mb-4">
         <h2>Generator Undangan</h2>
         <p class="text-muted">Buat link dan pesan undangan otomatis untuk tamu.</p>
@@ -102,6 +120,27 @@
 </div>
 
 <script>
+    function checkLogin() {
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+
+        if (user === 'admin' && pass === '@adi1212') {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('generator-content').style.display = 'block';
+        } else {
+            alert('Username atau Password salah!');
+        }
+    }
+
+    // Allow login with Enter key
+    document.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            if (document.getElementById('login-screen').style.display !== 'none') {
+                checkLogin();
+            }
+        }
+    });
+
     function generateInvitation() {
         const name = document.getElementById('guest-name').value;
         if (!name) {
