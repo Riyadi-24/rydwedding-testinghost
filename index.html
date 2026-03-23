@@ -27,25 +27,26 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <section
-      id="hero"
-      class="hero w-100 h-100 mx-auto text-center d-flex justify-content-center align-items-center text-white"
-    >
-      <div class="container splash-container">
-        <div class="row align-items-center">
-          <div class="col-lg-7 text-lg-start mb-5 mb-lg-0">
-            <h4 class="mb-3">The Wedding of</h4>
-            <h1 class="display-1">Yusfi & Marwah</h1>
-            <p class="lead">Sabtu, 21 Juni 2025</p>
+    <section id="hero" class="hero w-100 h-100 mx-auto d-flex align-items-center text-white">
+      <div class="container-fluid h-100 px-0">
+        <div class="row h-100 g-0">
+          <!-- Left Panel: Content -->
+          <div class="col-lg-8 d-flex flex-column justify-content-center p-5 text-lg-start text-center hero-content">
+            <h4 class="mb-3 animate-up">The Wedding of</h4>
+            <h1 class="display-1 fw-bold animate-up">Yusfi & Marwah</h1>
+            <p class="lead animate-up">Sabtu, 21 Juni 2025</p>
           </div>
-          <div class="col-lg-5">
-            <div class="recipient-box p-4 rounded-4 shadow-lg">
-              <p class="mb-2">Kepada Yth. Bapak/Ibu/Saudara/i</p>
-              <h2 id="nama-tamu" class="fw-bold mb-4">Nama Tamu</h2>
-              <button class="btn btn-lg btn-buka-undangan px-5 rounded-pill" onClick="enableScroll()">
-                <i class="bi bi-envelope-open me-2"></i> Buka Undangan
-              </button>
-              <p class="mt-3 small italic">Mohon maaf jika ada kesalahan dalam penulisan nama/gelar</p>
+          <!-- Right Panel: Guest Greeting inside Arched Frame -->
+          <div class="col-lg-4 d-flex align-items-center justify-content-center p-4">
+            <div class="arched-frame p-5 text-center text-dark">
+              <div class="frame-content">
+                <p class="mb-1">Kepada Yth. Bapak/Ibu/Saudara/i</p>
+                <h2 id="nama-tamu" class="fw-bold mb-4">Nama Tamu</h2>
+                <button class="btn btn-lg btn-buka-undangan px-5 rounded-pill shadow-sm" onClick="enableScroll()">
+                  <i class="bi bi-envelope-open me-2"></i> Buka Undangan
+                </button>
+                <p class="mt-4 small italic text-muted">Mohon maaf jika ada kesalahan dalam penulisan nama/gelar</p>
+              </div>
             </div>
           </div>
         </div>
@@ -277,20 +278,20 @@
   <div class="col-12">
     <div class="mb-3">
   <label for="nama" class="form-label">Nama</label>
-  <input type="Text" class="form-control" id="nama" name="nama" autocomplete="name">
+  <input type="text" class="form-control" id="nama" name="nama" autocomplete="name">
 </div>
   </div>
   <div class="col-12">
     <div class="mb-3">
   <label for="jumlah" class="form-label">Jumlah</label>
-  <input type="number" class="form-control" id="jumlah" name="jumlah" min="1" max="5" length="1" value="1" autocomplete="off">
+  <input type="number" class="form-control" id="jumlah" name="jumlah" min="1" max="5" value="1" autocomplete="off">
 </div>
   </div>
   <div class="col-12">
     <div class="mb-3">
   <label for="status" class="form-label">Konfirmasi</label>
       <select name="status" id="status" class="form-select" autocomplete="off">
-        <option selected>Pilih salah satu</option>
+        <option value="" selected disabled>Pilih salah satu</option>
         <option value="Hadir">Hadir</option>
         <option value="Tidak Hadir">Tidak Hadir</option>
       </select>
@@ -349,40 +350,6 @@
       </div>
     </div>
     </div>
-</section>
-
-<section id="generator" class="generator py-5 bg-light">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-8 text-center">
-        <h2>Generator Undangan</h2>
-        <p>Gunakan form di bawah ini untuk membuat link undangan dan pesan WhatsApp otomatis.</p>
-        
-        <div class="card p-4 shadow-sm">
-          <div class="mb-3 text-start">
-            <label for="guest-name" class="form-label">Nama Tamu (Contoh: Bang Sendy & Partner)</label>
-            <input type="text" id="guest-name" class="form-control" placeholder="Masukkan nama tamu...">
-          </div>
-          <button class="btn btn-primary w-100 mb-3" onclick="generateInvitation()">Generate Link & Pesan</button>
-          
-          <div id="result-container" style="display: none;">
-            <div class="mb-3 text-start">
-              <label class="form-label">Link Undangan:</label>
-              <div class="input-group">
-                <input type="text" id="generated-link" class="form-control" readonly>
-                <button class="btn btn-outline-secondary" onclick="copyToClipboard('generated-link')">Salin</button>
-              </div>
-            </div>
-            <div class="mb-3 text-start">
-              <label class="form-label">Pesan WhatsApp:</label>
-              <textarea id="generated-message" class="form-control" rows="10" readonly></textarea>
-              <button class="btn btn-success w-100 mt-2" onclick="shareWhatsApp()">Kirim via WhatsApp</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </section>
 
 <footer>
@@ -579,57 +546,11 @@
     if (namaInput) namaInput.value = to;
   }
 
-  function generateInvitation() {
-    const name = document.getElementById('guest-name').value;
-    if (!name) {
-      alert('Silakan masukkan nama tamu.');
-      return;
-    }
-
-    const baseUrl = window.location.href.split('?')[0];
-    const encodedName = encodeURIComponent(name);
-    const link = `${baseUrl}?to=${encodedName}`;
-    
-    const message = `Assalamu'alaikum Warahmatullahi Wabarakatuh
-
-Kepada Yth.
-Bapak/Ibu/Saudara/i
-
-${name}
-
-Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami.
-
-Berikut link undangan kami, untuk info lengkap dari acara bisa kunjungi :
-
-${link}
-
-Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir dan memberikan doa restu.
-
-Mohon maaf perihal undangan hanya di bagikan melalui pesan ini.
-
-Terima kasih banyak atas perhatiannya.
-
-Wassalamu'alaikum Warahmatullahi Wabarakatuh
-
-Hormat Kami,
-Yusfi & Marwah`;
-
-    document.getElementById('generated-link').value = link;
-    document.getElementById('generated-message').value = message;
-    document.getElementById('result-container').style.display = 'block';
-  }
-
   function copyToClipboard(id) {
     const el = document.getElementById(id);
     el.select();
     document.execCommand('copy');
     alert('Tersalin ke clipboard!');
-  }
-
-  function shareWhatsApp() {
-    const message = document.getElementById('generated-message').value;
-    const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
   }
 </script>
 </body>
