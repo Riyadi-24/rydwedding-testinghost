@@ -661,22 +661,33 @@ object {
     height: auto;
     min-height: 100vh;
     padding-top: 5rem;
+    padding-bottom: 2rem;
   }
 
   .hero-content {
     background: none;
     text-align: center;
-    padding: 2rem !important;
+    padding: 1.5rem !important;
   }
 
   .hero h1 {
-    font-size: 5rem;
+    font-size: 4rem; /* Smaller for mobile */
+  }
+
+  .hero h4 {
+    font-size: 1.3rem; /* Smaller for mobile */
+    letter-spacing: 3px;
   }
 
   .arched-frame {
-    width: 80%;
-    max-width: 300px;
-    margin: 2rem auto;
+    width: 85%;
+    max-width: 280px;
+    margin: 1rem auto;
     border-width: 5px;
+    aspect-ratio: 4 / 5;
+  }
+
+  .frame-content h2 {
+    font-size: 1.8rem;
   }
 }
